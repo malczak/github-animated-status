@@ -1,0 +1,16 @@
+service:
+  name: github-animated-status
+
+plugins:
+  modules:
+    - serverless-webpack
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+
+functions:
+  update:
+    handler: handler.update
+    events:
+      - schedule: cron(0 12 * * ? *)
