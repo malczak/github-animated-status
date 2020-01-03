@@ -1,0 +1,30 @@
+{
+  "token": "GITHUB_API_TOKEN",
+  "emojis": [
+    { "emoji": "🌑", "name": "new_moon" },
+    {
+      "emoji": "🌒",
+      "name": "waxing_crescent_moon"
+    },
+    {
+      "emoji": "🌓",
+      "name": "first_quarter_moon"
+    },
+    { "emoji": "🌔", "name": "moon" },
+    { "emoji": "🌕", "name": "full_moon" },
+    {
+      "emoji": "🌖",
+      "name": "waning_gibbous_moon"
+    },
+    {
+      "emoji": "🌗",
+      "name": "last_quarter_moon"
+    },
+    {
+      "emoji": "🌘",
+      "name": "waning_crescent_moon"
+    }
+  ],
+  "messages": ["2020"],
+  "busy": true
+}
