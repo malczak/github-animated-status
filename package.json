@@ -4,7 +4,9 @@
   "description": "GitHub animated status with Serverless",
   "main": "handler.js",
   "scripts": {
-    "test": "NODE_PATH=. ts-node -e \"import { test } from './handler'; test();\""
+    "test": "NODE_PATH=. ts-node -e \"import { test } from './handler'; test();\"",
+    "deploy": "serverless deploy",
+    "remove": "serverless remove"
   },
   "dependencies": {
     "axios": "^0.19.0",
