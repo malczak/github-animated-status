@@ -9,20 +9,22 @@ module.exports = {
   entry: slsw.lib.entries,
   devtool: "source-map",
   resolve: {
-    extensions: [".js", ".jsx", ".json", ".ts", ".tsx"]
+    extensions: [".js", ".jsx", ".json", ".ts", ".tsx"],
   },
   output: {
     libraryTarget: "commonjs",
     path: outputPath,
-    filename: "[name].js"
+    filename: "[name].js",
   },
   target: "node",
   module: {
-    rules: [{ test: /\.tsx?$/, loader: "ts-loader" }]
+    rules: [{ test: /\.tsx?$/, loader: "ts-loader" }],
   },
   plugins: [
-    new CopyPlugin([
-      { from: "./.config.json", to: path.join(outputPath, "service") }
-    ])
-  ]
+    new CopyPlugin({
+      patterns: [
+        { from: "./.config.json", to: path.join(outputPath, "service") },
+      ],
+    }),
+  ],
 };

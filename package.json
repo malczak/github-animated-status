@@ -9,21 +9,21 @@
     "remove": "serverless remove"
   },
   "dependencies": {
-    "axios": "^0.21.1",
-    "debug": "^4.3.1",
-    "moment": "^2.29.4",
-    "source-map-support": "^0.5.10"
+    "axios": "^1.6.8",
+    "dayjs": "^1.11.10",
+    "debug": "^4.3.4",
+    "source-map-support": "^0.5.21"
   },
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.17",
-    "@types/node": "^10.12.18",
-    "copy-webpack-plugin": "^5.0.4",
-    "serverless": "^1.54.0",
-    "serverless-webpack": "^5.2.0",
-    "ts-loader": "^5.3.3",
-    "ts-node": "^8.5.4",
-    "typescript": "^3.2.4",
-    "webpack": "^4.29.0"
+    "@types/aws-lambda": "^8.10.136",
+    "@types/node": "^20.11.30",
+    "copy-webpack-plugin": "^12.0.2",
+    "serverless": "^3.38.0",
+    "serverless-webpack": "^5.13.0",
+    "ts-loader": "^9.5.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.3",
+    "webpack": "^5.91.0"
   },
   "author": "Mateusz Malczak (https://github.com/malczak)",
   "license": "MIT"

@@ -1,5 +1,4 @@
-service:
-  name: github-animated-status
+service: github-animated-status
 
 plugins:
   modules:
@@ -7,7 +6,7 @@ plugins:
 
 provider:
   name: aws
-  runtime: nodejs10.x
+  runtime: nodejs18.x
 
 functions:
   update:

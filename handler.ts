@@ -1,10 +1,12 @@
 import { APIGatewayProxyHandler } from "aws-lambda";
 import axios from "axios";
 import debug from "debug";
-import * as moment from "moment";
+import * as dayjs from "dayjs";
+import * as LocalizedFormat from "dayjs/plugin/localizedFormat";
 import { readFileSync } from "fs";
 import "source-map-support/register";
 
+dayjs.extend(LocalizedFormat);
 const logError = debug("ghas:error");
 
 const GitHubEndpoint = "https://api.github.com/graphql";
@@ -32,9 +34,9 @@ function loadConfig(): Config | null {
 }
 
 function getYearProgress() {
-  const yearStart = moment().startOf("year");
-  const yearEnd = moment().endOf("year");
-  return moment().diff(yearStart) / yearEnd.diff(yearStart);
+  const yearStart = dayjs().startOf("year");
+  const yearEnd = dayjs().endOf("year");
+  return dayjs().diff(yearStart) / yearEnd.diff(yearStart);
 }
 
 function buildProgressBar(progress: number, length: number = 10) {
@@ -43,7 +45,7 @@ function buildProgressBar(progress: number, length: number = 10) {
   let trackLength = length - progressLength;
   let track = Buffer.concat([
     Buffer.alloc(progressLength * 3, "█"),
-    Buffer.alloc(trackLength * 3, "░")
+    Buffer.alloc(trackLength * 3, "░"),
   ]);
   progress = 100 * progress;
   const precision = progress < 1 ? 2 : 0;
@@ -59,7 +61,7 @@ async function queryUserStatus() {
         }
         `;
   const response = await axios.post(GitHubEndpoint, {
-    query
+    query,
   });
   const result = response.data;
   return result.data.viewer.status;
@@ -84,7 +86,7 @@ async function mutateUserStatus(
           }
           `;
   let response = await axios.post(GitHubEndpoint, {
-    query
+    query,
   });
   return response.data;
 }
@@ -92,7 +94,7 @@ async function mutateUserStatus(
 async function getIndex(config: Config) {
   const status = await queryUserStatus();
   return (
-    config.emojis.findIndex(emoji => `:${emoji.name}:` === status.emoji) || 0
+    config.emojis.findIndex((emoji) => `:${emoji.name}:` === status.emoji) || 0
   );
 }
 
@@ -100,9 +102,11 @@ async function setNextStatus(config: Config) {
   let index = await getIndex(config);
   index = index + 1;
 
-  const message = `${
+  const yearStartDate = dayjs().startOf("year");
+  const messateText = yearStartDate.format(
     config.messages[index % config.messages.length]
-  } ${buildProgressBar(getYearProgress())}`;
+  );
+  const message = `${messateText} ${buildProgressBar(getYearProgress())}`;
 
   return await mutateUserStatus(
     config.emojis[index % config.emojis.length],
@@ -117,7 +121,8 @@ async function updateStatus() {
   return await setNextStatus(config);
 }
 
-export const test = () => updateStatus().then(console.log);
+export const test = () =>
+  updateStatus().then((result) => console.log(JSON.stringify(result, null, 2)));
 
 export const update: APIGatewayProxyHandler = async (event, _context) => {
   await updateStatus();
@@ -126,10 +131,10 @@ export const update: APIGatewayProxyHandler = async (event, _context) => {
     body: JSON.stringify(
       {
         message: "Status Updated",
-        input: event
+        input: event,
       },
       null,
       2
-    )
+    ),
   };
 };
